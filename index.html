@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Management - Earnease</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1507209696997-2dcb2c9f13cb?fit=crop&w=1600&q=80');
+      background-size: cover;
+      color: #333;
+    }
+    .container {
+      margin-top: 50px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    }
+    .btn {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 15px;
+      font-size: 1.2rem;
+    }
+    .chart-container {
+      width: 100%;
+      height: 300px;
+      margin: 20px 0;
+    }
+    .company-credits {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 14px;
+      color: #666;
+    }
+    .feature-section, .employee-list-section {
+      text-align: center;
+    }
+    .feature-section h2, .employee-list-section h2 {
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #007bff;
+    }
+    .feature-section button, .employee-list-section button {
+      border-radius: 25px;
+    }
+    .list-group-item:hover {
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+    }
+    .feature-section h2 {
+      font-size: 1.8rem;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2 class="text-center">HR Management - Earnease</h2>
+
+  <!-- Feature Selection -->
+  <div class="row feature-section">
+    <div class="col-md-12">
+      <h2>Select a Feature</h2>
+      <div class="card">
+        <div class="card-body text-center">
+          <button class="btn btn-outline-info btn-lg" onclick="showEmployeeList('performance')">View Performance</button>
+          <button class="btn btn-outline-primary btn-lg" onclick="showEmployeeList('salary')">Manage Salary</button>
+          <button class="btn btn-outline-success btn-lg" onclick="showEmployeeList('cap')">Cap Early Wage Withdrawal</button>
+          <button class="btn btn-outline-warning btn-lg" onclick="showEmployeeList('warning')">Issue Warning</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Employee List Section -->
+  <div class="row employee-list-section" style="display: none;">
+    <div class="col-md-12">
+      <h2>Select an Employee</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul class="list-group" id="employeeList">
+            <li class="list-group-item" onclick="showFeaturePage('Amit Sharma')">Amit Sharma</li>
+            <li class="list-group-item" onclick="showFeaturePage('Riya Gupta')">Riya Gupta</li>
+            <li class="list-group-item" onclick="showFeaturePage('Rohan Verma')">Rohan Verma</li>
+            <li class="list-group-item" onclick="showFeaturePage('Sneha Patel')">Sneha Patel</li>
+            <li class="list-group-item" onclick="showFeaturePage('Vikas Singh')">Vikas Singh</li>
+            <li class="list-group-item" onclick="showFeaturePage('Anjali Jain')">Anjali Jain</li>
+            <li class="list-group-item" onclick="showFeaturePage('Raj Malhotra')">Raj Malhotra</li>
+            <li class="list-group-item" onclick="showFeaturePage('Niharika Rao')">Niharika Rao</li>
+            <li class="list-group-item" onclick="showFeaturePage('Aarav Mehta')">Aarav Mehta</li>
+            <li class="list-group-item" onclick="showFeaturePage('Siddharth Kapoor')">Siddharth Kapoor</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Pages -->
+  <div class="row" id="featurePage" style="display: none;">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header" id="featureTitle">Feature Title</div>
+        <div class="card-body">
+          <!-- View Performance Section -->
+          <div id="performanceSection" style="display: none;">
+            <h5 id="employeeNamePerformance"></h5>
+            <p>Leaves Taken: 5</p>
+            <p>Targets Achieved: 90%</p>
+            <p>Incentives Received: ₹15,000</p>
+            <div class="chart-container">
+              <canvas id="performanceChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Manage Salary Section -->
+          <div id="salarySection" style="display: none;">
+            <h5 id="employeeNameSalary"></h5>
+            <p>Current Salary: ₹50,000</p>
+            <label for="salaryChange">Enter Increment/Decrement Amount:</label>
+            <input type="number" id="salaryChange" class="form-control" placeholder="Enter amount">
+            <button class="btn btn-primary mt-2" onclick="updateSalary()">Update Salary</button>
+          </div>
+
+          <!-- Cap Early Wage Withdrawal Section -->
+          <div id="capSection" style="display: none;">
+            <h5 id="employeeNameCap"></h5>
+            <p>Current Cap: 40%</p>
+            <label for="capPercent">Enter New Cap Percentage:</label>
+            <input type="number" id="capPercent" class="form-control" placeholder="Enter %">
+            <button class="btn btn-primary mt-2" onclick="updateCap()">Set Cap</button>
+          </div>
+
+          <!-- Issue Warning Section -->
+          <div id="warningSection" style="display: none;">
+            <h5 id="employeeNameWarning"></h5>
+            <textarea id="warningMessage" class="form-control" rows="4" placeholder="Write a warning message"></textarea>
+            <button class="btn btn-warning mt-2" onclick="issueWarning()">Issue Warning</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="company-credits">
+    © 2024 Earnease Pvt. Ltd.
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let selectedFeature = '';
+
+  function showEmployeeList(feature) {
+    selectedFeature = feature;
+    document.querySelector('.feature-section').style.display = 'none';
+    document.querySelector('.employee-list-section').style.display = 'block';
+  }
+
+  function showFeaturePage(employee) {
+    document.querySelector('.employee-list-section').style.display = 'none';
+    document.getElementById('featurePage').style.display = 'block';
+
+    // Reset all feature sections
+    document.getElementById('performanceSection').style.display = 'none';
+    document.getElementById('salarySection').style.display = 'none';
+    document.getElementById('capSection').style.display = 'none';
+    document.getElementById('warningSection').style.display = 'none';
+
+    if (selectedFeature === 'performance') {
+      document.getElementById('featureTitle').innerText = 'Performance Details';
+      document.getElementById('employeeNamePerformance').innerText = `Performance for ${employee}`;
+      document.getElementById('performanceSection').style.display = 'block';
+
+      // Render performance chart
+      const ctx = document.getElementById('performanceChart').getContext('2d');
+      const performanceChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Targets Achieved', 'Leaves Taken', 'Incentives'],
+          datasets: [{
+            label: 'Performance',
+            data: [90, 5, 15000],
+            backgroundColor: ['#4CAF50', '#FFC107', '#2196F3']
+          }]
+        }
+      });
+    } else if (selectedFeature === 'salary') {
+      document.getElementById('featureTitle').innerText = 'Manage Salary';
+      document.getElementById('employeeNameSalary').innerText = `Manage Salary for ${employee}`;
+      document.getElementById('salarySection').style.display = 'block';
+    } else if (selectedFeature === 'cap') {
+      document.getElementById('featureTitle').innerText = 'Cap Early Wage Withdrawal';
+      document.getElementById('employeeNameCap').innerText = `Set Cap for ${employee}`;
+      document.getElementById('capSection').style.display = 'block';
+    } else if (selectedFeature === 'warning') {
+      document.getElementById('featureTitle').innerText = 'Issue Warning';
+      document.getElementById('employeeNameWarning').innerText = `Issue Warning to ${employee}`;
+      document.getElementById('warningSection').style.display = 'block';
+    }
+  }
+
+  function updateSalary() {
+    const salaryChange = document.getElementById('salaryChange').value;
+    alert('Salary updated by ₹' + salaryChange);
+  }
+
+  function updateCap() {
+    const capPercent = document.getElementById('capPercent').value;
+    alert('New early wage cap set to ' + capPercent + '%');
+  }
+
+  function issueWarning() {
+    const warningMessage = document.getElementById('warningMessage').value;
+    alert('Warning issued: ' + warningMessage);
+  }
+</script>
+
+</body>
+</html>
